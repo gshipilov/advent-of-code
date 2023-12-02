@@ -1,4 +1,4 @@
-use aoc2023::read_input;
+use aoc2023::read_input_lines;
 
 fn digits(line: &str) -> Vec<u32> {
     line.chars()
@@ -57,7 +57,7 @@ fn part_2(lines: &[String]) -> u32 {
 }
 
 fn main() {
-    let lines = read_input(1);
+    let lines = read_input_lines(1);
 
     println!("Part 1: {}", part_1(&lines));
     println!("Part 2: {}", part_2(&lines));
