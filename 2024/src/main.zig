@@ -1,6 +1,6 @@
 const std = @import("std");
 
-const Day = *const fn (allocator: std.mem.Allocator, input: []const u8) void;
+const Day = *const fn (allocator: std.mem.Allocator, input: []const u8) anyerror!void;
 
 const days = [_]Day{
     @import("day01.zig").run,
@@ -30,7 +30,7 @@ pub fn main() !void {
     defer allocator.free(input);
 
     const day = try std.fmt.parseInt(usize, day_str, 10);
-    days[day - 1](allocator, input);
+    _ = try days[day - 1](allocator, input);
 }
 
 fn readInput(allocator: std.mem.Allocator, day: []const u8) ![]const u8 {
