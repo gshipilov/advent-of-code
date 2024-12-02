@@ -1,4 +1,5 @@
 const std = @import("std");
+const aoc = @import("lib.zig");
 
 pub fn run(allocator: std.mem.Allocator, input: []const u8) !void {
     const reports = try parseInput(allocator, input);
@@ -88,24 +89,12 @@ fn checkReportWithDampener(allocator: std.mem.Allocator, report: []isize) !bool 
 
 fn parseInput(allocator: std.mem.Allocator, input: []const u8) !std.ArrayList(Report) {
     var reports = std.ArrayList(Report).init(allocator);
-    errdefer {
-        for (reports.items) |report| {
-            report.deinit();
-        }
-
-        reports.deinit();
-    }
+    errdefer aoc.deinitList(Report, reports);
 
     var lines = std.mem.splitScalar(u8, input, '\n');
     while (lines.next()) |line| {
-        var report = Report.init(allocator);
+        var report = try aoc.parseIntLine(isize, allocator, line);
         errdefer report.deinit();
-
-        var nums = std.mem.tokenizeScalar(u8, line, ' ');
-        while (nums.next()) |num_str| {
-            const num = try std.fmt.parseInt(isize, num_str, 10);
-            try report.append(num);
-        }
 
         try reports.append(report);
     }
@@ -124,26 +113,14 @@ const testInput =
 
 test "part1" {
     const reports = try parseInput(std.testing.allocator, testInput);
-    defer {
-        for (reports.items) |report| {
-            report.deinit();
-        }
-
-        reports.deinit();
-    }
+    defer aoc.deinitList(Report, reports);
 
     try std.testing.expect(part1(reports.items) == 2);
 }
 
 test "part2" {
     const reports = try parseInput(std.testing.allocator, testInput);
-    defer {
-        for (reports.items) |report| {
-            report.deinit();
-        }
-
-        reports.deinit();
-    }
+    defer aoc.deinitList(Report, reports);
 
     const answer = try part2(std.testing.allocator, reports.items);
     try std.testing.expect(answer == 4);
