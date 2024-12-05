@@ -5,6 +5,9 @@ const Day = *const fn (allocator: std.mem.Allocator, input: []const u8) anyerror
 const days = [_]Day{
     @import("day01.zig").run,
     @import("day02.zig").run,
+    // @import("day03.zig").run,
+    @import("day02.zig").run, // Day 3 not ready to publish yet.
+    @import("day04.zig").run,
 };
 
 pub fn main() !void {
