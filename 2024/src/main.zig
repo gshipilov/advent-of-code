@@ -9,6 +9,7 @@ const days = [_]Day{
     @import("day02.zig").run, // Day 3 not ready to publish yet.
     @import("day04.zig").run,
     @import("day05.zig").run,
+    @import("day06.zig").run,
 };
 
 pub fn main() !void {
