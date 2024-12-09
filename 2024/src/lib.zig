@@ -18,6 +18,17 @@ pub fn parseIntLine(comptime T: type, allocator: std.mem.Allocator, line: []cons
     return lst;
 }
 
+pub fn cloneList(comptime T: type, allocator: std.mem.Allocator, list: *const std.ArrayList(T)) !std.ArrayList(T) {
+    var new_list = std.ArrayList(T).init(allocator);
+    errdefer (new_list.deinit());
+
+    for (list.items) |item| {
+        try new_list.append(item);
+    }
+
+    return new_list;
+}
+
 pub fn deinitList(comptime T: type, list: std.ArrayList(T)) void {
     const has_deinit = switch (@typeInfo(T)) {
         .Struct, .Union, .Enum => @hasDecl(T, "deinit"),
