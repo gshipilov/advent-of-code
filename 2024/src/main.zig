@@ -5,13 +5,20 @@ const Day = *const fn (allocator: std.mem.Allocator, input: []const u8) anyerror
 const days = [_]Day{
     @import("day01.zig").run,
     @import("day02.zig").run,
-    // @import("day03.zig").run,
-    @import("day02.zig").run, // Day 3 not ready to publish yet.
+    todo, // day 3
     @import("day04.zig").run,
     @import("day05.zig").run,
     @import("day06.zig").run,
     @import("day07.zig").run,
+    todo, // day 8
+    @import("day09.zig").run,
+    @import("day10.zig").run,
+    @import("day11.zig").run,
 };
+
+fn todo(_: std.mem.Allocator, _: []const u8) anyerror!void {
+    @panic("NIY");
+}
 
 pub fn main() !void {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
