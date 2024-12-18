@@ -16,6 +16,10 @@ const days = [_]Day{
     @import("day11.zig").run,
     todo, // day 12
     @import("day13.zig").run,
+    todo, // day 14
+    todo, // day 15
+    todo, // day 16
+    @import("day17.zig").run,
 };
 
 fn todo(_: std.mem.Allocator, _: []const u8) anyerror!void {
