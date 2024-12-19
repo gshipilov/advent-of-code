@@ -10,7 +10,7 @@ const days = [_]Day{
     @import("day05.zig").run,
     @import("day06.zig").run,
     @import("day07.zig").run,
-    todo, // day 8
+    @import("day08.zig").run,
     @import("day09.zig").run,
     @import("day10.zig").run,
     @import("day11.zig").run,
