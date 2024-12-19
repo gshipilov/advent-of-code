@@ -14,7 +14,7 @@ fn part1(allocator: std.mem.Allocator, input: []const u8) !usize {
 
     var total: usize = 0;
     for (parsed.patterns.items) |pattern| {
-        if (try checkPattern(allocator, pattern, parsed.towels.items)) {
+        if (try countPatternOptions(allocator, pattern, parsed.towels.items) > 0) {
             total += 1;
         }
     }
@@ -37,42 +37,15 @@ fn part2(allocator: std.mem.Allocator, input: []const u8) !usize {
     return total;
 }
 
-fn checkPattern(allocator: std.mem.Allocator, pattern: []const u8, towels: []const []const u8) !bool {
-    var table = try allocator.alloc(bool, pattern.len + 1);
-    defer allocator.free(table);
-
-    for (0..table.len) |i| {
-        table[i] = false;
-    }
-
-    pl: for (1..pattern.len + 1) |pi| {
-        const pattern_ss = pattern[0..pi];
-
-        for (towels) |towel| {
-            if (std.mem.endsWith(u8, pattern_ss, towel)) {
-                if (towel.len == pattern_ss.len) {
-                    table[pi] = true;
-                    continue :pl;
-                } else if (table[pattern_ss.len - towel.len]) {
-                    table[pi] = true;
-                    continue :pl;
-                }
-            }
-        }
-    }
-
-    return table[pattern.len];
-}
-
 fn countPatternOptions(allocator: std.mem.Allocator, pattern: []const u8, towels: []const []const u8) !usize {
     var table = try allocator.alloc(usize, pattern.len + 1);
     defer allocator.free(table);
 
-    for (0..table.len) |i| {
-        table[i] = 0;
-    }
+    table[0] = 0;
 
     for (1..pattern.len + 1) |pi| {
+        table[pi] = 0;
+
         const pattern_ss = pattern[0..pi];
 
         for (towels) |towel| {
@@ -81,9 +54,7 @@ fn countPatternOptions(allocator: std.mem.Allocator, pattern: []const u8, towels
                     table[pi] += 1;
                 }
 
-                if (table[pattern_ss.len - towel.len] > 0) {
-                    table[pi] += table[pattern_ss.len - towel.len];
-                }
+                table[pi] += table[pattern_ss.len - towel.len];
             }
         }
     }
